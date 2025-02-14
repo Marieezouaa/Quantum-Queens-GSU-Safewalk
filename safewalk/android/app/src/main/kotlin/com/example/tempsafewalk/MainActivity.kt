@@ -1,4 +1,4 @@
-package com.example.safewalk
+package com.example.tempsafewalk
 
 import io.flutter.embedding.android.FlutterActivity
 
