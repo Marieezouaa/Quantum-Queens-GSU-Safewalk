@@ -4,42 +4,42 @@ import 'package:hugeicons/hugeicons.dart';
 import 'package:tempsafewalk/pages/home_page/bookmark_modal.dart';
 
 class BookmarkButton extends StatefulWidget {
-  BookmarkButton({super.key, required this.location});
+  const BookmarkButton({
+    super.key, 
+    required this.location,
+    required this.onBookmarkAdded,
+  });
 
-  TextEditingController location;
+  final TextEditingController location;
+  final Function(String address, String nickname, IconData icon) onBookmarkAdded;
 
   @override
   State<BookmarkButton> createState() => _BookmarkButtonState();
 }
 
 class _BookmarkButtonState extends State<BookmarkButton> {
-   TextEditingController addressController = TextEditingController();
-   TextEditingController nicknameController = TextEditingController();
+  void _showBookmarkModal() {
+    showDialog(
+      context: context,
+      builder: (context) {
+        return BookmarkModal(
+          onSave: _handleBookmarkSave,
+        );
+      },
+    );
+  }
+
+  void _handleBookmarkSave(String address, String nickname, IconData icon) {
+    widget.onBookmarkAdded(address, nickname, icon);
+  }
 
   @override
   Widget build(BuildContext context) {
-
-
-final Color surface = Theme.of(context).colorScheme.surface;
-    final Color onSurface = Theme.of(context).colorScheme.onSurface;
-
     final Color primaryColor = Theme.of(context).colorScheme.primary;
     final Color onPrimaryColor = Theme.of(context).colorScheme.onPrimary;
 
-    final Color secondaryColor = Theme.of(context).colorScheme.secondary;
-    final Color onSecondaryColor = Theme.of(context).colorScheme.onSecondary;
-
-
-
     return GestureDetector(
-      onTap: () {
-        showDialog(
-          context: context,
-          builder: (context) {
-            return BookmarkModal(addressController: addressController, nicknameController: nicknameController,);
-          },
-        );
-      },
+      onTap: _showBookmarkModal,
       child: Container(
         height: 62,
         width: 350,
@@ -56,16 +56,14 @@ final Color surface = Theme.of(context).colorScheme.surface;
                 color: Color(0xff4BB7F3),
                 size: 35.0,
               ),
-              const SizedBox(
-                width: 10,
-              ),
+              const SizedBox(width: 10),
               Text(
                 "Add New Location",
                 style: GoogleFonts.oxygen(
-                    color: onPrimaryColor,
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                    decoration: TextDecoration.none),
+                  color: onPrimaryColor,
+                  fontSize: 18,
+                  fontWeight: FontWeight.w400,
+                ),
               )
             ],
           ),

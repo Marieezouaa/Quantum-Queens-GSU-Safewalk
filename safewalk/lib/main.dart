@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tempsafewalk/pages/home_page/home_page.dart';
 import 'package:tempsafewalk/pages/welcome_page.dart';
 import 'package:tempsafewalk/styles/global_themes.dart';
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const WelcomePage(),
+      home: const HomePage(),
       theme: GlobalThemeData.lightThemeData,
       darkTheme: GlobalThemeData.darkThemeData,
       themeMode: ThemeMode.system,

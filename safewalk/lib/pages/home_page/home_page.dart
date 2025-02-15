@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:tempsafewalk/models/bookmark_data.dart';
 import 'package:tempsafewalk/pages/home_page/custom_search_container.dart';
 import 'package:tempsafewalk/pages/home_page/incident_report_modal.dart';
+import 'package:tempsafewalk/pages/menu/menu_page.dart';
 import 'package:tempsafewalk/styles/templates/bookmark_container.dart';
 import 'package:touch_assistive/touch_assistive.dart';
 
@@ -19,16 +21,18 @@ class _HomePageState extends State<HomePage> {
   final LatLng _center = const LatLng(33.75327, -84.38527);
   TextEditingController location = TextEditingController();
   Set<Circle> _circles = {};
+  DraggableScrollableController _dragController =
+      DraggableScrollableController();
+  List<BookmarkData> bookmarks = [];
 
   @override
   void initState() {
     super.initState();
-    // Initialize the circle perimeter
     _circles.add(
       Circle(
         circleId: const CircleId('perimeter'),
         center: _center,
-        radius: 500, // 500 meters radius
+        radius: 500,
         strokeColor: Colors.blue,
         fillColor: Colors.blue.withOpacity(0.2),
         strokeWidth: 2,
@@ -40,19 +44,24 @@ class _HomePageState extends State<HomePage> {
     mapController = controller;
   }
 
+  void _addBookmark(String address, String nickname, IconData icon) {
+    setState(() {
+      bookmarks.add(BookmarkData(
+        address: address,
+        nickname: nickname,
+        icon: icon,
+      ));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final Color surface = Theme.of(context).colorScheme.surface;
     final Color onSurface = Theme.of(context).colorScheme.onSurface;
-    final Color primaryColor = Theme.of(context).colorScheme.primary;
-    final Color onPrimaryColor = Theme.of(context).colorScheme.onPrimary;
-    final Color secondaryColor = Theme.of(context).colorScheme.secondary;
-    final Color onSecondaryColor = Theme.of(context).colorScheme.onSecondary;
 
     return Scaffold(
       body: Stack(
         children: [
-          /* ****************************START OF MAP**************************** */
           GoogleMap(
             onMapCreated: _onMapCreated,
             myLocationButtonEnabled: false,
@@ -60,92 +69,145 @@ class _HomePageState extends State<HomePage> {
               target: _center,
               zoom: 11.0,
             ),
-            circles: _circles, // Add the circles Set to the map
+            circles: _circles,
           ),
-          /* ****************************END OF MAP******************************* */
-
-          /* ****************************START OF SEARCH BAR********************** */
           SafeArea(
             child: Padding(
-              padding: const EdgeInsets.only(left: 16.0),
-              child: Row(
-                children: [
-                  const CustomSearchContainer(),
-                  const SizedBox(width: 10),
-                  GestureDetector(
-                    child: Container(
-                      width: 65,
-                      height: 65,
-                      decoration: BoxDecoration(
-                        color: surface,
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      child: Center(
-                        child: HugeIcon(
-                          icon: HugeIcons.strokeRoundedMic01,
-                          color: onSurface,
-                          size: 26.0,
-                        ),
-                      ),
-                    ),
-                  )
-                ],
+              padding: EdgeInsets.all(16),
+              child: GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled:
+                        true, // Allows the sheet to take full height if needed
+                    backgroundColor: Colors
+                        .transparent, // Ensures rounded corners appear properly
+                    builder: (context) {
+                      return DraggableScrollableSheet(
+                        initialChildSize: 1,
+                        minChildSize: 1,
+                        maxChildSize: 1,
+                        expand:
+                            false, // Ensures it behaves like a proper bottom sheet
+                        builder: (context, scrollController) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.surface,
+                              borderRadius: const BorderRadius.only(
+                                topLeft: Radius.circular(20),
+                                topRight: Radius.circular(20),
+                              ),
+                            ),
+                            child: SettingsPage(), // Your Settings Page content
+                          );
+                        },
+                      );
+                    },
+                  );
+                },
+                child: Container(
+                  width: 65,
+                  height: 65,
+                  decoration: BoxDecoration(
+                    color: surface,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: HugeIcon(
+                    icon: HugeIcons.strokeRoundedMenu01,
+                    color: onSurface,
+                    size: 24.0,
+                  ),
+                ),
               ),
             ),
           ),
-
-          /* ****************************START OF BOOKMARKS******************************* */
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: SafeArea(
-              top: false,
-              child: Container(
-                width: 390,
-                height: 370,
+          DraggableScrollableSheet(
+            controller: _dragController,
+            initialChildSize: 0.4,
+            minChildSize: 0.2,
+            maxChildSize: 0.8,
+            builder: (context, scrollController) {
+              return Container(
                 decoration: BoxDecoration(
                   color: surface,
-                  borderRadius: BorderRadius.circular(22),
+                  borderRadius: const BorderRadius.only(
+                    topLeft: Radius.circular(20),
+                    topRight: Radius.circular(20),
+                  ),
                 ),
-                child: Column(
-                  children: [
-                    Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: const EdgeInsets.only(top: 18.0, left: 20),
-                        child: Text(
-                          "Recent Locations",
-                          style: GoogleFonts.oxygen(
-                            color: onSurface,
-                            fontWeight: FontWeight.w400,
-                            fontSize: 16,
-                            decoration: TextDecoration.none,
+                child: CustomScrollView(
+                  controller: scrollController,
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.symmetric(vertical: 12),
+                            width: 40,
+                            height: 4,
+                            decoration: BoxDecoration(
+                              color: Colors.grey[400],
+                              borderRadius: BorderRadius.circular(2),
+                            ),
                           ),
-                        ),
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 16.0),
+                            child: CustomSearchContainer(),
+                          ),
+                          const SizedBox(height: 20),
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20),
+                            child: Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                "Recent Locations",
+                                style: GoogleFonts.oxygen(
+                                  color: onSurface,
+                                  fontWeight: FontWeight.w400,
+                                  fontSize: 16,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 15),
-                    BookmarkButton(location: location),
-                    const SizedBox(height: 15),
-                    BookmarkButton(location: location),
-                    const SizedBox(height: 15),
-                    BookmarkButton(location: location),
-                    const SizedBox(height: 15),
-                    BookmarkButton(location: location),
+                    SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                        (context, index) {
+                          if (index == bookmarks.length) {
+                            return Padding(
+                              padding: const EdgeInsets.all(15.0),
+                              child: BookmarkButton(
+                                location: location,
+                                onBookmarkAdded: _addBookmark,
+                              ),
+                            );
+                          }
+                          return Padding(
+                            padding: const EdgeInsets.all(15.0),
+                            child: SavedBookmarkContainer(
+                              bookmark: bookmarks[index],
+                              onTap: () {
+                                // Handle bookmark tap
+                              },
+                            ),
+                          );
+                        },
+                        childCount: bookmarks.length + 1,
+                      ),
+                    ),
                   ],
                 ),
-              ),
-            ),
+              );
+            },
           ),
-
-          /***************************SOS Button Section*************************/
           TouchAssistive(
             initialOffset: const Offset(350, 350),
             onPressed: () {
               showDialog(
                 context: context,
-                builder: (context) {
-                  return IncidentReportModal();
-                },
+                builder: (context) => IncidentReportModal(),
               );
             },
             disableOpacity: .8,
@@ -181,7 +243,6 @@ class _HomePageState extends State<HomePage> {
                             fontSize: 16,
                             letterSpacing: .5,
                             fontWeight: FontWeight.w300,
-                            decoration: TextDecoration.none,
                           ),
                         ),
                       ),

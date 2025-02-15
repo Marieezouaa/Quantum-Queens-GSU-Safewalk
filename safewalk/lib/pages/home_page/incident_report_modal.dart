@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:tempsafewalk/data/school_buildings.dart';
+import 'package:tempsafewalk/Data/school_buildings.dart';
 
 class IncidentReportModal extends StatefulWidget {
   const IncidentReportModal({super.key});

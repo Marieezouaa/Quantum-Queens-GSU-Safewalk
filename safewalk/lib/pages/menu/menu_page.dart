@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:tempsafewalk/pages/settings/settings_page/inbox.dart';
+import 'package:tempsafewalk/pages/menu/pages/faq.dart';
+import 'package:tempsafewalk/pages/menu/pages/friends.dart';
+import 'package:tempsafewalk/pages/menu/pages/inbox.dart';
 import 'package:tempsafewalk/styles/global_themes.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -78,7 +80,7 @@ class SettingsPage extends StatelessWidget {
             GestureDetector(
               onTap: () {},
               child:  Padding(
-                padding: const EdgeInsets.only(left: 30.0),
+                padding: const EdgeInsets.only(left: 30.0, top:55),
                 child:  Row(
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
@@ -138,17 +140,17 @@ class SettingsPage extends StatelessWidget {
               height: 25,
             ),
             _settingsCategoryContainer(context, "assets/images/add-friend.svg",
-                "Add Friend", const Inbox()),
+                "Add Friend", const Friends()),
             const SizedBox(
               height: 25,
             ),
             _settingsCategoryContainer(
-                context, "assets/images/gear.svg", "Settings", const Inbox()),
+                context, "assets/images/gear.svg", "Settings", const SettingsPage()),
             const SizedBox(
               height: 25,
             ),
             _settingsCategoryContainer(context, "assets/images/faq.svg",
-                "Help & Feedback", const Inbox()),
+                "Help & Feedback", const FAQ()),
             const Spacer(),
             SafeArea(
               child: Padding(

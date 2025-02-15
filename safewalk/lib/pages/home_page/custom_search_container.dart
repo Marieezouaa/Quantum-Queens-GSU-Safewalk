@@ -61,65 +61,68 @@ class _CustomSearchContainerState extends State<CustomSearchContainer> {
         // Main Search Bar
         Material(
           color: Colors.transparent,
-          child: Container(
-            width: 320,
-            height: 65,
-            decoration: BoxDecoration(
-              color: surface,
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.only(left: 20.0),
-              child: Row(
-                children: [
-                  HugeIcon(
-                    icon: HugeIcons.strokeRoundedSearch01,
-                    color: onSurface,
-                    size: 24.0,
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: TextField(
-                      controller: _searchController,
-                      focusNode: _focusNode,
-                      style: GoogleFonts.oxygen(
-                        fontSize: 17,
-                        color: onSurface,
-                        fontWeight: FontWeight.w400,
-                      ),
-                      decoration: InputDecoration(
-                        hintText: "Where are you going?",
-                        hintStyle: GoogleFonts.oxygen(
+          child: Padding(
+            padding: const EdgeInsets.only(top:20.0),
+            child: Container(
+              width: 400,
+              height: 65,
+              decoration: BoxDecoration(
+                color: primaryColor,
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 20.0),
+                child: Row(
+                  children: [
+                    HugeIcon(
+                      icon: HugeIcons.strokeRoundedSearch01,
+                      color: onPrimaryColor,
+                      size: 24.0,
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: TextField(
+                        controller: _searchController,
+                        focusNode: _focusNode,
+                        style: GoogleFonts.oxygen(
                           fontSize: 17,
                           color: onSurface,
                           fontWeight: FontWeight.w400,
                         ),
-                        border: InputBorder.none,
-                      ),
-                      onChanged: (value) {
-                        setState(() {});
-                      },
-                    ),
-                  ),
-                  if (_searchController.text.isNotEmpty)
-                    IconButton(
-                      icon: Icon(Icons.clear, color: onSurface),
-                      onPressed: () {
-                        setState(() {
-                          _searchController.clear();
-                        });
-                      },
-                    )
-                  else
-                    Padding(
-                      padding: EdgeInsets.only(right: 20.0),
-                      child: HugeIcon(
-                        icon: HugeIcons.strokeRoundedVolumeHigh,
-                        color: surface,
-                        size: 24.0,
+                        decoration: InputDecoration(
+                          hintText: "Where are you going?",
+                          hintStyle: GoogleFonts.oxygen(
+                            fontSize: 17,
+                            color: onSurface,
+                            fontWeight: FontWeight.w400,
+                          ),
+                          border: InputBorder.none,
+                        ),
+                        onChanged: (value) {
+                          setState(() {});
+                        },
                       ),
                     ),
-                ],
+                    if (_searchController.text.isNotEmpty)
+                      IconButton(
+                        icon: Icon(Icons.clear, color: onSurface),
+                        onPressed: () {
+                          setState(() {
+                            _searchController.clear();
+                          });
+                        },
+                      )
+                    else
+                      Padding(
+                        padding: EdgeInsets.only(right: 20.0),
+                        child: HugeIcon(
+                            icon: HugeIcons.strokeRoundedMic01,
+                            color: onPrimaryColor,
+                            size: 26.0,
+                          ),
+                      ),
+                  ],
+                ),
               ),
             ),
           ),
