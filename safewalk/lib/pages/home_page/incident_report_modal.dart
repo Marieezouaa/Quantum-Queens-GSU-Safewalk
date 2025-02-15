@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:tempsafewalk/data/school_buildings.dart';
 
 class IncidentReportModal extends StatefulWidget {
   const IncidentReportModal({super.key});
@@ -144,8 +145,7 @@ class _IncidentReportModalState extends State<IncidentReportModal> {
               const SizedBox(
                 height: 15,
               ),
-              _reportDropdownTemplate(
-                  "Location", ["Current Location", "5 mi", "10 mi"], 200),
+              _reportDropdownTemplate("Location", SchoolBuildingList, 200),
               const SizedBox(
                 height: 10,
               ),

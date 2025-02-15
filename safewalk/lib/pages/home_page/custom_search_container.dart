@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:tempsafewalk/data/school_buildings.dart';
 
 class CustomSearchContainer extends StatefulWidget {
   const CustomSearchContainer({Key? key}) : super(key: key);
@@ -14,40 +15,7 @@ class _CustomSearchContainerState extends State<CustomSearchContainer> {
   final FocusNode _focusNode = FocusNode();
   bool _isExpanded = false;
 
-  final List<String> searchList = [
-    "25 Park Place",
-    "40 Pryor Building",
-    "55 Park Place",
-    "75 Piedmont",
-    "Aderhold Learning Center",
-    "Alpharetta Center II",
-    "Alumni Center",
-    "Andrew Young School of Policy Studies",
-    "Aquatics Building",
-    "Classroom South",
-    "College of Education",
-    "Courtland Building",
-    "Dahlberg Hall",
-    "General Classroom Building",
-    "Haas-Howell Building",
-    "Helen M. Aderhold Learning Center",
-    "Langdale Hall",
-    "Library North",
-    "Library South",
-    "Natural Science Center",
-    "One Park Place",
-    "Parker H. Petit Science Center",
-    "Rialto Center for the Arts",
-    "Sparks Hall",
-    "Sports Arena",
-    "Standard Building",
-    "Student Center East",
-    "Student Center West",
-    "Student Recreation Center",
-    "University Bookstore Building",
-    "University Lofts",
-    "Urban Life Building"
-];
+  final List<String> searchList = SchoolBuildingList;
 
   List<String> _getSuggestions(String query) {
     return query.isEmpty
@@ -76,9 +44,7 @@ class _CustomSearchContainerState extends State<CustomSearchContainer> {
 
   @override
   Widget build(BuildContext context) {
-
-
-final Color surface = Theme.of(context).colorScheme.surface;
+    final Color surface = Theme.of(context).colorScheme.surface;
     final Color onSurface = Theme.of(context).colorScheme.onSurface;
 
     final Color primaryColor = Theme.of(context).colorScheme.primary;
@@ -97,7 +63,7 @@ final Color surface = Theme.of(context).colorScheme.surface;
           color: Colors.transparent,
           child: Container(
             width: 320,
-            height: 65, 
+            height: 65,
             decoration: BoxDecoration(
               color: surface,
               borderRadius: BorderRadius.circular(20),
@@ -137,7 +103,7 @@ final Color surface = Theme.of(context).colorScheme.surface;
                   ),
                   if (_searchController.text.isNotEmpty)
                     IconButton(
-                      icon:  Icon(Icons.clear, color:onSurface),
+                      icon: Icon(Icons.clear, color: onSurface),
                       onPressed: () {
                         setState(() {
                           _searchController.clear();
@@ -158,10 +124,10 @@ final Color surface = Theme.of(context).colorScheme.surface;
             ),
           ),
         ),
-    
+
         if (_isExpanded && suggestions.isNotEmpty)
           Positioned(
-            top: 70, 
+            top: 70,
             left: 0,
             right: 0,
             child: Material(

@@ -29,7 +29,7 @@ class WelcomePage extends StatelessWidget {
             //Welcome Text and Image
             const Text("Welcome to", style: TextStyle(fontSize: 24),),
             Text(
-              "GSU SafeWalk",
+              "SafeWalk",
               style: GoogleFonts.fredoka(
                   color: onSurface, //onSurface
                   fontSize: 30,
