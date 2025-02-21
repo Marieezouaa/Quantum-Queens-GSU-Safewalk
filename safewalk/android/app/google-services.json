@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "114904702348",
+    "project_id": "safewalk-46b90",
+    "storage_bucket": "safewalk-46b90.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:114904702348:android:191468bdada1cc64484aa9",
+        "android_client_info": {
+          "package_name": "com.example.activity14"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB05eJCztXzXtbCxAu58QrjDTBF9tuWae0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -3,7 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:tempsafewalk/pages/menu/pages/faq.dart';
-import 'package:tempsafewalk/pages/menu/pages/friends.dart';
+import 'package:tempsafewalk/pages/menu/pages/friends_page.dart';
 import 'package:tempsafewalk/pages/menu/pages/inbox.dart';
 import 'package:tempsafewalk/styles/global_themes.dart';
 

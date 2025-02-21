@@ -1,25 +1,46 @@
+// main.dart - Entry point for the SafeWalk app
 import 'package:flutter/material.dart';
-import 'package:tempsafewalk/pages/home_page/home_page.dart';
-import 'package:tempsafewalk/pages/welcome_page.dart';
-import 'package:tempsafewalk/styles/global_themes.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:tempsafewalk/pages/home_page/home_page.dart'; // Ensure SafeWalkHome is in home_page.dart
+import 'package:google_fonts/google_fonts.dart';
+import 'package:hugeicons/hugeicons.dart';
+import 'package:tempsafewalk/pages/create_and_login/login_page.dart';
+import 'package:tempsafewalk/pages/menu/pages/settings_pages.dart';
+import 'package:tempsafewalk/pages/menu/pages/friends_page.dart';
+import 'package:tempsafewalk/pages/menu/pages/inbox.dart';
 
-void main() {
-  runApp(const MaterialApp(
-    home: MyApp(),
-  ));
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+
+  runApp(const SafeWalkApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class SafeWalkApp extends StatelessWidget {
+  const SafeWalkApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: const HomePage(),
-      theme: GlobalThemeData.lightThemeData,
-      darkTheme: GlobalThemeData.darkThemeData,
-      themeMode: ThemeMode.system,
+      home: AuthGate(),
+    );
+  }
+}
+
+class AuthGate extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return const HomePage(); // ✅ SafeWalkHome is properly imported
+        } else {
+          return const LoginPage();
+        }
+      },
     );
   }
 }
